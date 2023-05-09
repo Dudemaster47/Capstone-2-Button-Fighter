@@ -15,10 +15,18 @@ app.use(cors());
 
 socketIO.on('connection', (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`);
+  
+    //sends the message to all the users on the server
+    socket.on('message', (data) => {
+    socketIO.emit('messageResponse', data);
+  });
+
+  
     socket.on('disconnect', () => {
       console.log('🔥: A user disconnected');
     });
-});
+  });
+  
 
 app.get('/api', (req, res) => {
   res.json({
